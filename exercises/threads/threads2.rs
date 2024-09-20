@@ -9,16 +9,16 @@
 
 
 
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
 struct JobStatus {
-    jobs_completed: u32,
+    jobs_completed: Mutex<u32>,
 }
 
 fn main() {
-    let status = Arc::new(JobStatus { jobs_completed: 0 });
+    let status = Arc::new(JobStatus { jobs_completed: Mutex::new(0) });
     let mut handles = vec![];
     for _ in 0..10 {
         let status_shared = Arc::clone(&status);
